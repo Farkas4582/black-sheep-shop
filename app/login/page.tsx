@@ -58,7 +58,7 @@ export default function AdminPage() {
 
     if (error) {
       console.error(error);
-      setMessage(Hiba: ${error.message});
+      setMessage(`Hiba: ${error.message}`);
     } else {
       setProducts(data ?? []);
     }
@@ -100,9 +100,9 @@ export default function AdminPage() {
 
     if (error) {
       console.error(error);
-      setMessage(Hiba: ${error.message});
+      setMessage(`Hiba: ${error.message}`);
     } else {
-      setMessage(${product.name} sikeresen mentve.);
+      setMessage(`${product.name} sikeresen mentve.`);
     }
 
     setSaving(null);
