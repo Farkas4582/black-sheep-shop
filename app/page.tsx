@@ -88,7 +88,7 @@ export default function HomePage() {
               világába.
             </h1><div className="mt-10 overflow-hidden rounded-3xl border border-white/10">
   <img
-    src="/black-sheep.jpg"
+    src="/black-sheep.png"
     alt="Black Sheep"
     className="h-auto w-full object-cover"
   />
