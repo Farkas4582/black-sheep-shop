@@ -1,19 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function OrderSuccessPage() {
+function OrderSuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
 
   return (
     <main className="min-h-screen bg-black px-6 py-20 text-white">
       <div className="mx-auto max-w-2xl text-center">
-
-        <div className="mb-8 text-6xl">
-          ✓
-        </div>
+        <div className="mb-8 text-6xl">✓</div>
 
         <h1 className="text-4xl font-black tracking-tight">
           Köszönjük a rendelésed!
@@ -41,8 +39,23 @@ export default function OrderSuccessPage() {
         >
           Vissza a webshopba
         </Link>
-
       </div>
     </main>
+  );
+}
+
+export default function OrderSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-black px-6 py-20 text-white">
+          <div className="mx-auto max-w-2xl text-center">
+            Betöltés...
+          </div>
+        </main>
+      }
+    >
+      <OrderSuccessContent />
+    </Suspense>
   );
 }
