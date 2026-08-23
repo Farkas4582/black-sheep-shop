@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 const categories = [
   {
     icon: "💎",
@@ -70,6 +72,7 @@ export default function HomePage() {
         <div className="absolute bottom-[-150px] right-[-100px] h-[500px] w-[500px] rounded-full bg-purple-600/10 blur-[140px]" />
 
         <div className="relative mx-auto w-full max-w-7xl">
+         
 
           <div className="max-w-4xl">
 
@@ -83,7 +86,13 @@ export default function HomePage() {
                 Black Sheep
               </span>
               világába.
-            </h1>
+            </h1><div className="mt-10 overflow-hidden rounded-3xl border border-white/10">
+  <img
+    src="/black-sheep.jpg"
+    alt="Black Sheep"
+    className="h-auto w-full object-cover"
+  />
+</div>
 
             <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-400">
               Szerezd be a Black Sheep Roleplay szerverhez elérhető prémium
