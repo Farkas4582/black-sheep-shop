@@ -60,9 +60,24 @@ const icon = searchParams.get("icon")  ||"🐑";
                 {price}
               </span>
 
-              <button className="rounded-xl bg-purple-600 px-7 py-4 font-bold transition hover:bg-purple-500">
-                Megvásárolom
-              </button>
+             <button
+  onClick={async () => {
+    const response = await fetch("/api/checkout", {
+      method: "POST",
+    });
+
+    const data = await response.json();
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Nem sikerült elindítani a fizetést.");
+    }
+  }}
+  className="rounded-xl bg-purple-600 px-7 py-4 font-bold transition hover:bg-purple-500"
+>
+  Megvásárolom
+</button>
             </div>
 
             <p className="mt-6 text-xs text-zinc-600">
