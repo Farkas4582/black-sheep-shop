@@ -1,7 +1,8 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 
-export async function POST() {
+  export async function POST(request: Request) {
+  const { name, price } = await request.json();
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   try {
     const session = await stripe.checkout.sessions.create({
@@ -11,9 +12,11 @@ export async function POST() {
           price_data: {
             currency: "huf",
             product_data: {
-              name: "Black Sheep Termék",
+              name: name || "Black Sheep Termék",
             },
-            unit_amount: 100,
+            unit_amount: Math.round(
+  Number(price.replace(/[^\d]/g, "")) || 100
+),
           },
           quantity: 1,
         },
