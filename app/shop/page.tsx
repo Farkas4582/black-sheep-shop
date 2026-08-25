@@ -82,11 +82,13 @@ const [orderMessage, setOrderMessage] = useState("");
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(
-      "black-sheep-cart",
-      JSON.stringify(cart)
-    );
-    async function handleCheckout() {
+  localStorage.setItem(
+    "black-sheep-cart",
+    JSON.stringify(cart)
+  );
+}, [cart]);
+
+async function handleCheckout() {
   if (!customerEmail.trim()) {
     setOrderMessage("Kérlek, add meg az email címed.");
     return;
@@ -101,7 +103,7 @@ const [orderMessage, setOrderMessage] = useState("");
   setOrderMessage("");
 
   try {
-    const response = await fetch("/api/orders", {
+    const response = await fetch("/api/checkout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -116,73 +118,24 @@ const [orderMessage, setOrderMessage] = useState("");
 
     if (!response.ok) {
       setOrderMessage(
-        result.error || "A rendelés leadása sikertelen."
+        result.error || "A fizetés indítása sikertelen."
       );
       return;
     }
 
-    setCart([]);
-    setCustomerEmail("");
-
-    router.push(`/order-success?orderId=${result.orderId}`);
-console.log("ORDER RESULT:", result);
-   router.push(`/order-success?orderId=${result.orderId}`);
-  } catch (error) {
-    console.error(error);
-    setOrderMessage("Hiba történt a rendelés leadásakor.");
-  } finally {
-    setOrderLoading(false);
-  }
-}
-  }, [cart]);async function handleCheckout() {
-  if (!customerEmail.trim()) {
-    setOrderMessage("Kérlek, add meg az email címed.");
-    return;
-  }
-
-  if (cart.length === 0) {
-    setOrderMessage("A kosár üres.");
-    return;
-  }
-
-  setOrderLoading(true);
-  setOrderMessage("");
-
-  try {
-    const response = await fetch("/api/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: customerEmail.trim(),
-        products: cart,
-      }),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      setOrderMessage(
-        result.error || "A rendelés leadása sikertelen."
-      );
-      return;
+    if (result.url) {
+      window.location.href = result.url;
+    } else {
+      setOrderMessage("Nem sikerült elindítani a Stripe fizetést.");
     }
-
-   setCart([]);
-setCustomerEmail("");
-setOrderMessage("");
-
-router.push(`/order-success?orderId=${result.orderId}`);
-
-  
   } catch (error) {
     console.error(error);
-    setOrderMessage("Hiba történt a rendelés leadásakor.");
+    setOrderMessage("Hiba történt a fizetés indításakor.");
   } finally {
     setOrderLoading(false);
   }
 }
+
 
   const filteredProducts = useMemo(() => {
     if (selectedCategory === "Összes") {
