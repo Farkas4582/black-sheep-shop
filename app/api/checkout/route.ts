@@ -1,9 +1,11 @@
+console.log("STRIPE TESZT: checkout.sessions.create indul");
+
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
+console.log("STRIPE KEY:", process.env.STRIPE_SECRET_KEY ? "BEÁLLÍTVA" : "HIÁNYZIK");
   try {
     const { email, products } = await request.json();
 
