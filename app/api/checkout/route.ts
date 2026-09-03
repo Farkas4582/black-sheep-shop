@@ -41,12 +41,16 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (error) {
-    console.error(error);
+ } catch (error: any) {
+    console.error("STRIPE CHECKOUT HIBA:", error);
 
     return NextResponse.json(
-      { error: "Sikertelen fizetés indítás." },
+      {
+        error: error?.message || "Ismeretlen Stripe hiba.",
+        type: error?.type 
+ ||null,
+        code: error?.code || null,
+      },
       { status: 500 }
     );
-  }
-}
+} 

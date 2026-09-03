@@ -10,7 +10,7 @@ function ProductContent() {
 const price = searchParams.get("price")  ||"0 Ft";
 
 const description =
-  searchParams.get("description") 
+  searchParams.get("description") ||
   "Termék a Black Sheep Roleplay szerverhez.";
 
 const icon = searchParams.get("icon")  ||"🐑";
@@ -62,10 +62,16 @@ const icon = searchParams.get("icon")  ||"🐑";
 
              <button
   onClick={async () => {
-    const response = await fetch("/api/checkout", {
-      method: "POST",
-    });
-
+   const response = await fetch("/api/checkout", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    name,
+    price,
+  }),
+});
     const data = await response.json();
 
     if (data.url) {
