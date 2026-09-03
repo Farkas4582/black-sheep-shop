@@ -1,11 +1,16 @@
-console.log("STRIPE TESZT: checkout.sessions.create indul");
 
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-console.log("STRIPE KEY:", process.env.STRIPE_SECRET_KEY ? "BEÁLLÍTVA" : "HIÁNYZIK");
+  
+if (!process.env.STRIPE_SECRET_KEY) {
+  return NextResponse.json(
+    { error: "A STRIPE_SECRET_KEY HIÁNYZIK a Cloudflare Workerben." },
+    { status: 500 }
+  );
+}
   try {
     const { email, products } = await request.json();
 
